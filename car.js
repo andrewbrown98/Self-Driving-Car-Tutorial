@@ -11,11 +11,15 @@ class Car{
         this.friction = 0.05;
         this.angle = 0;
 
+        //sensors
+        this.sensor = new Sensor(this); //pass car to sensor
+    
         this.controls = new Controls();
     }
 
-    update(){
+    update(roadBorders){
         this.#move();
+        this.sensor.update(roadBorders);
     }
 
     #move(){
@@ -72,5 +76,7 @@ class Car{
         ctx.fill();
 
         ctx.restore();
+
+        this.sensor.draw(ctx); //car draws its sensors
     }
 }

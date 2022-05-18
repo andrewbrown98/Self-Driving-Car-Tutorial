@@ -9,7 +9,7 @@ const car = new Car(road.getLaneCenter(1),100,30,50);
 animate();
 
 function animate(){ //function allowing the movements of the car to take effect
-    car.update(); //get new positions from button pushes 
+    car.update(road.borders); //get new positions from button pushes, pass the boarders for use with sensors
     
     canvas.height=window.innerHeight; //resize canvas
     
