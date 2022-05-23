@@ -18,7 +18,7 @@ class Sensor{
                 this.#getReading(
                     this.rays[i],
                     roadBorders,
-                    traffic,
+                    traffic
                     )
             );
         }
@@ -56,11 +56,10 @@ class Sensor{
 
         if(touches.length==0){
             return null;
-        }
-        else{
+        }else{
             const offsets = touches.map(e=>e.offset); //iterate through touches taking only the offsets 
             const minOffset = Math.min(...offsets); //take the min offsets and disgard the rest 
-            return touches.find(e=>e.offset=minOffset);
+            return touches.find(e=>e.offset==minOffset);
         }
     }
 
@@ -68,7 +67,8 @@ class Sensor{
         this.rays = [];
 
         for(let i = 0; i<this.rayCount; i++){
-            const rayAngle = lerp( //Linearly interpolate the angle between rays
+            //Linearly interpolate the angle between rays
+            const rayAngle = lerp(
                 this.raySpread/2, 
                 -this.raySpread/2,
                 this.rayCount==1?0.5:i/(this.rayCount-1)//If raycount = 1 retun 0.5, otherwise compute based on number
@@ -77,7 +77,7 @@ class Sensor{
             const start = {x:this.car.x,y:this.car.y}; //rays starting point
             const end = {
                 x:this.car.x-
-                    Math.sin(rayAngle)*this.rayLength, //
+                    Math.sin(rayAngle)*this.rayLength, 
                 y:this.car.y-
                     Math.cos(rayAngle)*this.rayLength
             };
