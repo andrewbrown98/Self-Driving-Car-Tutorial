@@ -1,9 +1,12 @@
-const canvas=document.getElementById("myCanvas");
+const carCanvas=document.getElementById("carCanvas");
+carCanvas.width=500;
 
-canvas.width=200;
+const networkCanvas=document.getElementById("networkCanvas");
+networkCanvas.width=600;
 
-const ctx = canvas.getContext("2d");
-const road = new Road(canvas.width/2,canvas.width*0.9);
+const carCtx = carCanvas.getContext("2d");
+const networkCtx = networkCanvas.getContext("2d");
+const road = new Road(carCanvas.width/2,carCanvas.width*0.9);
 const car = new Car(road.getLaneCenter(1),100,30,50,"AI");
 
 const traffic = [
@@ -19,18 +22,21 @@ function animate(){ //function allowing the movements of the car to take effect
     
     car.update(road.borders,traffic); //get new positions from button pushes, pass the boarders for use with sensors
     
-    canvas.height=window.innerHeight; //resize canvas
+    carCanvas.height=window.innerHeight; 
+    networkCanvas.height=window.innerHeight;
     
-    ctx.save(); // save the caanvas position
-    ctx.translate(0,-car.y+canvas.height*0.7); // translate the canvas
-    road.draw(ctx);
+    carCtx.save(); // save the caanvas position
+    carCtx.translate(0,-car.y+carCanvas.height*0.7); // translate the canvas
+    road.draw(carCtx);
 
     for(let i =0; i<traffic.length;i++){ //draw traffic
-        traffic[i].draw(ctx,"red");
+        traffic[i].draw(carCtx,"red");
     }
 
-    car.draw(ctx, "blue"); //draw the car in the new position 
+    car.draw(carCtx, "blue"); //draw the car in the new position 
 
-    ctx.restore();
+    carCtx.restore();
+
+    Visualizer.drawNetwork(networkCtx,car.brain);
     requestAnimationFrame(animate); //calls the animate function repeatedly 
 }
